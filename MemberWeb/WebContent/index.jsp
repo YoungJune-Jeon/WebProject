@@ -23,6 +23,7 @@
 	<a href="#">다운로드</a>
 	<a href="/memberList">전체회원 조회</a><br>	
 	<a href="/notice">공지사항</a> <br />
+	<h1> 안녕하세요</h1>
 <% } %>	
 
 
