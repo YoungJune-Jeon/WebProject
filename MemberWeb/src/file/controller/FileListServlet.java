@@ -26,19 +26,21 @@ public class FileListServlet extends HttpServlet {
       
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session =request.getSession();
-		String userId =((Member)session.getAttribute("member")).getUserId();
-		ArrayList<FileData>list = new FileService().selectFileList(userId);
-		if(!list.isEmpty()) {
-			request.getRequestDispatcher("/views/file/fileList.jsp").forward(request, response);
-		}
-	}
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+         HttpSession session = request.getSession();
+         String userId = ((Member) session.getAttribute("member")).getUserId();
+         ArrayList<FileData> list = new FileService().selectFileList(userId);
+
+         if (!list.isEmpty()) {
+            request.setAttribute("fileList", list);
+            request.getRequestDispatcher("/views/file/FileList.jsp").forward(request, response);
+         }
+      }
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

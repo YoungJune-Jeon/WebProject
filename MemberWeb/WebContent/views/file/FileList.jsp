@@ -28,7 +28,14 @@
 				<td><%=data.getUploadTime() %></td>
 				<td>다운로드</td>
 				<td>
-				<form action="fileRemove" method="post">
+				<form action="/fileDown" method="post">
+					<input type="hidden" name="filePath" value="<%= data.getFilePath() %>" />
+					<input type="hidden" name="fileUser" value="<%= data.getFileUser()%>"/>
+					<input type="submit" value="다운로드"/>
+				</form>
+				 </td>
+				<td>
+				<form action="/fileRemove" method="post">
 					<input type="hidden" name="filePath" value="<%= data.getFilePath() %>" />
 					<input type="hidden" name="fileUser" value="<%= data.getFileUser()%>"/>
 					<input type="submit" value="삭제"/>

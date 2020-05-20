@@ -15,7 +15,7 @@
 	<br><a href="/Logout">로그아웃</a><br>
 	<a href="/myinfo?userId=<%= member.getUserId() %>">마이페이지</a><br>
 	<a href="/views/file/upload.html">업로드</a><br>
-	<a href="/fileList.jsp">다운로드</a><br>
+	<a href="/fileList">다운로드</a><br>
 	<% if (member.getUserId().equals("admin")) { %>
 		<a href="/memberList">전체 회원 조회</a><br>
 	<% } %>

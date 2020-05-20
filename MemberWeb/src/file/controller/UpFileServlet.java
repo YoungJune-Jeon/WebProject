@@ -20,24 +20,24 @@ import file.model.service.FileService;
 import file.model.vo.FileData;
 import member.model.vo.Member;
 
-/**
- * Servlet implementation class UploadServlet
- */
+
+
+
 @WebServlet("/upload")
 public class UpFileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+
+
+	
     public UpFileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String upUserId = ((Member)session.getAttribute("member")).getUserId();
@@ -72,9 +72,9 @@ public class UpFileServlet extends HttpServlet {
 		}
 	}
 	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
