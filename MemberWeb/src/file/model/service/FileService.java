@@ -53,5 +53,38 @@ public class FileService {
 		}
 		return list;
 	}
+	
+	public int deleteFile(String filePath) {
+		Connection conn = null;
+		int result =0;
+		
+		try {
+			conn = factory.createConnection();
+			result = new FileDAO().deleteFile(conn,filePath);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(result > 0) {
+			factory.commit(conn);
+		}else {
+			factory.rollback(conn);
+		}
+		return result;
+	}
+	
+	
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

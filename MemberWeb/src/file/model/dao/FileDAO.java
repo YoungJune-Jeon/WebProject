@@ -74,6 +74,22 @@ public class FileDAO {
 		return list;
 	}
 	
+	public int deleteFile(Connection conn, String filePath) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query ="DELETE FILETBL WHERE FILEPATH=?";
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, filePath);
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	
 }
 
