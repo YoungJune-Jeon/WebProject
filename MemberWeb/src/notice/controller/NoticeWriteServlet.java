@@ -11,41 +11,47 @@ import javax.servlet.http.HttpSession;
 import member.model.vo.Member;
 import notice.model.service.NoticeService;
 
-
-@WebServlet(name = "NoticeWriteServlet", urlPatterns = { "/noticeWrite" })
+/**
+ * Servlet implementation class NoticeWriteServlet
+ */
+@WebServlet("/noticeWrite")
 public class NoticeWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
     public NoticeWriteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
+		
 		HttpSession session = request.getSession();
-		if(session != null && (session.getAttribute("member")!=null)) {
-			String userId = ((Member)session.getAttribute("member")).getUserId();
-			int result =new NoticeService().insertNotice(subject,content,userId);
-			if(result>0) {
+		if (session != null && (session.getAttribute("member") != null)) {
+			String userId = ((Member)session.getAttribute("member")).getUserId();;
+			int result = new NoticeService().insertNotice(subject, content, userId);
+			if (result > 0) {
 				response.sendRedirect("/notice");
-			}else {
+			} else {
 				response.sendRedirect("/views/notice/noticeError.html");
 			}
-		}else {
+		} else {
 			response.sendRedirect("/views/notice/serviceFailed.html");
 		}
-		
-		
-		
 	}
 
-	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

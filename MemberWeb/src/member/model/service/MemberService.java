@@ -1,6 +1,5 @@
 package member.model.service;
 
-
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,43 +9,43 @@ import member.model.dao.MemberDAO;
 import member.model.vo.Member;
 
 public class MemberService {
+	
 	private ConnectionFactory factory;
-		
+	
 	public MemberService() {
-		
-		factory =ConnectionFactory.getConnection();
+		factory = ConnectionFactory.getConnection();
 	}
+	
 	public Member selectMember(String userId, String userPwd) {
 		Connection conn = null;
 		Member member = null;
+		
 		try {
 			conn = factory.createConnection();
-			member = new MemberDAO().selectList(conn,userId,userPwd);
+			member = new MemberDAO().selectList(conn, userId, userPwd);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			ConnectionFactory.close(conn);
 		}
 		return member;
-		}
+	}
 	
 	public Member selectMemberOne(String userId) {
-		Connection conn =null;
-		Member member =null;
+		Connection conn = null;
+		Member member = null;
 		
 		try {
 			conn = factory.createConnection();
 			member = new MemberDAO().selectOne(conn, userId);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 		return member;
 	}
 	
-	public ArrayList<Member> selectMemberList(){
-		
+	public ArrayList<Member> selectMemberList() {
 		Connection conn = null;
 		ArrayList<Member> list = null;
 		
@@ -54,29 +53,33 @@ public class MemberService {
 			conn = factory.createConnection();
 			list = new MemberDAO().selectMemberList(conn);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return list;
-		
 	}
 	
 	public int insertMember(Member member) {
+		
 		Connection conn = null;
-		int result = 0 ;
+		int result = 0;
 		
 		try {
 			conn = factory.createConnection();
 			result = new MemberDAO().insertMember(conn, member);
 			
-			if(result > 0) {
+			if (result > 0) {
 				factory.commit(conn);
-			}else {
+			} else {
 				factory.rollback(conn);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
@@ -85,16 +88,15 @@ public class MemberService {
 		Connection conn = null;
 		int result = 0;
 		
-		
 		try {
-			conn=factory.createConnection();
-			result = new MemberDAO().deleteMember(conn,userId);
+			conn = factory.createConnection();
+			result = new MemberDAO().deleteMember(conn, userId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		if(result >0) {
+		if (result > 0) {
 			factory.commit(conn);
-		}else {
+		} else {
 			factory.rollback(conn);
 		}
 		return result;
@@ -103,20 +105,25 @@ public class MemberService {
 	public int updateMember(Member member) {
 		Connection conn = null;
 		int result = 0;
+		
 		try {
-		conn = factory.createConnection();
-		
-		result = new MemberDAO().updateMember(conn,member);
-		
-		}catch(SQLException e){
+			conn = factory.createConnection();
+			result = new MemberDAO().updateMember(conn, member);
+			
+			if (result > 0) {
+				factory.commit(conn);
+			} else {
+				factory.rollback(conn);
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
-		}if(result > 0) {
-			factory.commit(conn);
-		}else {
-			factory.rollback(conn);
+		} finally {
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return result;
 	}
 }
-	
-

@@ -1,28 +1,29 @@
 package notice.controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import member.model.vo.Member;
+import notice.model.dao.NoticeDAO;
 import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
+import notice.model.vo.NoticeComment;
 
 /**
- * Servlet implementation class NoticeSelectServlet
+ * Servlet implementation class NoticeCommentWriteServlet
  */
-@WebServlet("/noticeSelect")
-public class NoticeSelectServlet extends HttpServlet {
+@WebServlet("/noticeCommentWrite")
+public class NoticeCommentWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeSelectServlet() {
+    public NoticeCommentWriteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,15 +32,23 @@ public class NoticeSelectServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		Notice notice = new NoticeService().noticeSelect(noticeNo);
 		
-		if ( notice != null ) {
-			RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeContent.jsp");
-			request.setAttribute("content", notice);
-			view.forward(request, response);
+		String content = request.getParameter("co");
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		String userId = null;
+		
+		HttpSession session = request.getSession();
+		if (session != null && (session.getAttribute("member") != null)) {
+			userId = ((Member)session.getAttribute("member")).getUserId();;
+		} else {
+			/*response.sendRedirect("/views/notice/serviceFailed.html"); 이건 로그인이 필요할 경우*/
+			userId = "annonymous";
+		}
+		
+		int result = new NoticeService().insertComment(content, noticeNo, userId);
+		if (result > 0) {
+			response.sendRedirect("/noticeSelect?noticeNo=" + noticeNo);
 		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}

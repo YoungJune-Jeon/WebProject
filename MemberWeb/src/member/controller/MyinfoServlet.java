@@ -1,7 +1,6 @@
-package notice.controller;
+package member.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,21 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.vo.PageData;
-import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
+import member.model.service.MemberService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class NoticeServlet
+ * Servlet implementation class MyinfoServlet
  */
-@WebServlet("/notice")
-public class NoticeServlet extends HttpServlet {
+@WebServlet("/myinfo")
+public class MyinfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public NoticeServlet() {
+    public MyinfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -33,23 +31,22 @@ public class NoticeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 전송값에 한글이 있을 경우 인코딩
-		// 2. View에서 보낸 전송값 변수 저장
-		// 3. 비즈니스 로직을 처리할 서비스 클래스 메소드로 
+		// 1. 전송값에 한글이 있는 경우 인코딩 처리
+		request.setCharacterEncoding("utf-8");
+		
+		// 2. View에서 보낸 전송값을 꺼내어 변수 저장
+		String userId = request.getParameter("userId");
+		// 3. 비즈니스로직을 처리할 서비스 클래스 메소드로
 		// 값을 전달 및 결과 받기
-		
-		int currentPage = 0;
-		// href="/noticecurrentPage=1"
-		if(request.getParameter("currentPage") == null) {
-			currentPage=1;
+		Member member = new MemberService().selectMemberOne(userId);
+		// 4. 받은 결과에 따라서 성공/실패 페이지 내보내기
+		if (member != null) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberMyInfo.jsp");
+			request.setAttribute("memberOne", member);
+			view.forward(request, response);
 		} else {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+			response.sendRedirect("/views/member/memberError.html");
 		}
-		PageData pageData = new NoticeService().selectNoticeList(currentPage);
-		
-		RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeAll.jsp");
-		request.setAttribute("pageData", pageData);
-		view.forward(request, response);
 	}
 
 	/**
@@ -59,5 +56,4 @@ public class NoticeServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

@@ -1,14 +1,8 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="member.model.vo.Member"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="member.model.vo.Member"%>
-    
+    pageEncoding="UTF-8" import="member.model.vo.Member, java.util.*" %>
 <%
- 	ArrayList<Member> list = (ArrayList<Member>)request.getAttribute("list");
-	
-
-%>    
-    
+	ArrayList<Member> list = (ArrayList<Member>)request.getAttribute("list");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,26 +23,27 @@
 			<th>취미</th>
 			<th>가입날짜</th>
 		</tr>
-		<% for(Member mOne: list){ %>
+		<% for(Member mOne : list) { %>
 		<tr>
-			<td><a href="/myinfo?userId=<%= mOne.getUserId() %>"><%= mOne.getUserId() %></a></td>
+			<td>
+			<a href="/myinfo?userId=<%= mOne.getUserId() %>"><%= mOne.getUserId() %></a>
+			</td>
 			<td><%= mOne.getUserName() %></td>
 			<td><%= mOne.getAge() %></td>
 			<td><%= mOne.getEmail() %></td>
 			<td><%= mOne.getPhone() %></td>
 			<td><%= mOne.getAddress() %></td>
-			
-			<%if(mOne.getGender().equals("M")){ %>
-			<td>남자</td>
-			<% }else{ %>
-			<td>여자</td>
-			<%} %>
-			
+			<td> <%=mOne.getGender() %>
+			<% if ( mOne.getGender().equals("M") ) { %>
+				<td>남자</td>
+			<% } else { %>
+				<td>여자</td>
+			<% } %>
 			<td><%= mOne.getHobby() %></td>
 			<td><%= mOne.getEnrollDate() %></td>
 		</tr>
 		<% } %>
 	</table>
-	<a href="/index.jsp">메인페이지로 이동</a>
+	<<a href="/index.jsp">메인페이지로 이동</a>
 </body>
 </html>
