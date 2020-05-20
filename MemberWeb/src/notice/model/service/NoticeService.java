@@ -1,6 +1,7 @@
 package notice.model.service;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -215,4 +216,61 @@ public class NoticeService {
 		}
 		return result;
 	}
+	
+	   public int modifyNoticeComment(int commentNo, int noticeNo, String comment) {
+		      Connection conn = null;
+		      int result = 0;
+
+		      try {
+		         conn = factory.createConnection();
+		         result = new NoticeDAO().modifyNoticeComment(conn, commentNo, noticeNo, comment);
+		         if (result > 0) {
+		            factory.commit(conn);
+		         } else {
+		            factory.rollback(conn);
+		         }
+		      } catch (SQLException e) {
+		         e.printStackTrace();
+		      }
+
+		      return result;
+		   }
+	   public int deleteNoticeComment(int commentNo) {
+		   Connection conn = null;
+		   int result =0;
+		   
+		   try {
+		   conn = factory.createConnection();
+		   result = new NoticeDAO().deleteNoticeComment(conn, commentNo);
+	   }catch(SQLException e){
+		   e.printStackTrace();
+	   }
+		   if(result>0) {
+			   factory.commit(conn);
+		   }else {
+			   factory.rollback(conn);
+		   }
+	   return result;
+	   }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

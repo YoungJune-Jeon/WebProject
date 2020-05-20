@@ -13,28 +13,28 @@ import notice.model.dao.NoticeDAO;
 import notice.model.service.NoticeService;
 import notice.model.vo.NoticeComment;
 
-/**
- * Servlet implementation class NoticeCommentWriteServlet
- */
+
+
+
 @WebServlet("/noticeCommentWrite")
 public class NoticeCommentWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+   
+	
+	
     public NoticeCommentWriteServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
+    
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
-		String content = request.getParameter("co");
+		String content = request.getParameter("comment");
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		String userId = null;
 		
@@ -54,9 +54,8 @@ public class NoticeCommentWriteServlet extends HttpServlet {
 		}
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
