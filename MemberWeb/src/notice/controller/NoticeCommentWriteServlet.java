@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import member.model.vo.Member;
-import notice.model.service.noticeService;
+import notice.model.dao.NoticeDAO;
+import notice.model.service.NoticeService;
+import notice.model.vo.NoticeComment;
 
 /**
  * Servlet implementation class NoticeCommentWriteServlet
@@ -32,27 +34,24 @@ public class NoticeCommentWriteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("utf-8");
 		
+		String content = request.getParameter("co");
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		String comment =  request.getParameter("comment");
-		int result = 0;
-		HttpSession session = request.getSession();
+		String userId = null;
 		
-		if(session != null && (session.getAttribute("member")!=null)) {
-			String userId= ((Member)session.getAttribute("member")).getUserId();
-			
-			result = new noticeService().noticeCommentWrite(userId,noticeNo,comment);
-			
-					}
-		else {
-			String userId= "unknown";
+		HttpSession session = request.getSession();
+		if (session != null && (session.getAttribute("member") != null)) {
+			userId = ((Member)session.getAttribute("member")).getUserId();;
+		} else {
+			/*response.sendRedirect("/views/notice/serviceFailed.html"); 이건 로그인이 필요할 경우*/
+			userId = "annonymous";
 		}
-		if(result > 0) {
-			response.sendRedirect("/noticeSelect?noticeNo="+noticeNo);
-		}
-		else {
+		
+		int result = new NoticeService().insertComment(content, noticeNo, userId);
+		if (result > 0) {
+			response.sendRedirect("/noticeSelect?noticeNo=" + noticeNo);
+		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}
-		
 	}
 
 	/**

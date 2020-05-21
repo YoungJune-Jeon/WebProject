@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.noticeService;
+import notice.model.service.NoticeService;
 
 /**
  * Servlet implementation class NoticeCommentModifyServlet
@@ -28,20 +28,20 @@ public class NoticeCommentModifyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
+		// View에서 보낸 전송값 변수 저장
+		// noticeNo, commentNo, comment
+		String comment = request.getParameter("modComment");
+		int noticeNo = Integer.parseInt(request.getParameter("modNoticeNo"));
+		int commentNo = Integer.parseInt(request.getParameter("modCommentNo"));
 		
-		String comment=request.getParameter("modComment");
-		int noticeNo=Integer.parseInt(request.getParameter("modNoticeNo"));
-		int commentNo=Integer.parseInt(request.getParameter("modCommentNo"));
+		System.out.println(comment + ", " + noticeNo + ", " + commentNo);
+		int result = new NoticeService().modifyNoticeComment(commentNo, noticeNo, comment);
 		
-	
-		
-		int result = new noticeService().modifyNoticeComment(commentNo,noticeNo,comment);
-		
-		if(result > 0) {
-			response.sendRedirect("/noticeSelect?noticeNo="+noticeNo);
-		}
-		else {
+		if (result > 0) {
+			response.sendRedirect("/noticeSelect?noticeNo=" + noticeNo);
+		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}
 	}

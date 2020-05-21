@@ -7,20 +7,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.sesrvice.MemberService;
+import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class memberModifyServlet
+ * Servlet implementation class EnrollServlet
  */
-@WebServlet("/mupdate")
-public class memberModifyServlet extends HttpServlet {
+@WebServlet("/enroll")
+public class EnrollServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberModifyServlet() {
+    public EnrollServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,24 +29,30 @@ public class memberModifyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// 1. 전송값에 한글이 있을 경우 인코딩 처리
 		request.setCharacterEncoding("utf-8");
-		
-		Member member= new Member();
+		// 2. View에서 보낸 전송값을 꺼내서 변수 저장
+		Member member = new Member();
 		member.setUserId(request.getParameter("userId"));
+		// enroll.html의 name값
 		member.setUserPwd(request.getParameter("userPwd"));
+		member.setUserName(request.getParameter("userName"));
+		member.setAge(Integer.parseInt(request.getParameter("age")));
 		member.setPhone(request.getParameter("phone"));
 		member.setAddress(request.getParameter("address"));
 		member.setEmail(request.getParameter("email"));
 		member.setGender(request.getParameter("gender"));
 		member.setHobby(request.getParameter("hobby"));
+		// 날짜가 없는 이유? -> DB에서 처리함(sysdate)
 		
-		int result= new MemberService().updateMember(member);
+		// 3. 비즈니스 로직 처리
+		int result = new MemberService().insertMember(member);
 		
-		if(result>0) {
-			response.sendRedirect("/");
-		}else {
-			response.sendRedirect("/views/member/loginError.html");
+		// 4. 받은 결과에 따라 성공 / 실패
+		if (result > 0) {
+			response.sendRedirect("/index.jsp");
+		} else {
+			response.sendRedirect("/views/member/memberError.html");
 		}
 	}
 

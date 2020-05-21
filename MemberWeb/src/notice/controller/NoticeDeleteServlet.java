@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.noticeService;
+import notice.model.service.NoticeService;
 
 /**
  * Servlet implementation class NoticeDeleteServlet
@@ -28,15 +28,13 @@ public class NoticeDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int noticeNo=Integer.parseInt(request.getParameter("noticeNo"));
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
 		
+		int result = new NoticeService().deleteNotice(noticeNo);
 		
-		int result = new noticeService().deleteNotice(noticeNo);
-		
-		if(result>0) {
+		if ( result > 0) {
 			response.sendRedirect("/notice");
-		}
-		else {
+		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}
 	}

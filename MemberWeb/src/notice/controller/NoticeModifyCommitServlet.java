@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.noticeService;
+import notice.model.service.NoticeService;
 
 /**
  * Servlet implementation class NoticeModifyCommitServlet
@@ -28,19 +28,17 @@ public class NoticeModifyCommitServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
-		
+		// View에서 넘어온 값 변수 저장
 		String subject = request.getParameter("subject");
 		String content = request.getParameter("content");
-		
 		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		int result = new NoticeService().modifyNotice(subject, content, noticeNo);
 		
-		int result = new noticeService().modifyNotice(subject,content,noticeNo);
-		
-		if(result>0) {
-			response.sendRedirect("/noticeSelect?noticeNo="+noticeNo);
-		}
-		else {
+		if( result > 0 ) {
+			response.sendRedirect("/noticeSelect?noticeNo=" + noticeNo);
+		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}
 	}

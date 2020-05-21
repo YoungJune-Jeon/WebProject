@@ -1,4 +1,4 @@
-package member.controller;
+package notice.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -6,22 +6,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import member.model.sesrvice.MemberService;
-import member.model.vo.Member;
 
 /**
- * Servlet implementation class memberDeleteServlet
+ * Servlet implementation class NoticeWriteFormServlet
  */
-@WebServlet("/mdelete")
-public class memberDeleteServlet extends HttpServlet {
+@WebServlet("/noticeWriteForm")
+public class NoticeWriteFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberDeleteServlet() {
+    public NoticeWriteFormServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,18 +26,7 @@ public class memberDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		
-		HttpSession session = request.getSession();
-		String userId=((Member)session.getAttribute("member")).getUserId();
-		
-		int result = new MemberService().deleteMember(userId);
-		
-		if(result>0) {
-			response.sendRedirect("/logout");
-		}else {
-			response.sendRedirect("/views/member/loginError.html");
-		}
+		request.getRequestDispatcher("/WEB-INF/views/notice/noticeWrite.html").forward(request, response);
 	}
 
 	/**

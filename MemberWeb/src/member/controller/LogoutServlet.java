@@ -8,20 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import member.model.sesrvice.MemberService;
-import member.model.vo.Member;
-
 /**
- * Servlet implementation class loginServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/login")
-public class loginServlet extends HttpServlet {
+@WebServlet("/Logout")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public loginServlet() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,24 +27,10 @@ public class loginServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 전송값에 한글이 있을 경우 인코딩 처리
-		request.setCharacterEncoding("utf-8");
-		// 2. View에서 보낸 전송값을 꺼내서 변수에 저장하기
-		String userId=request.getParameter("userId");
-		String userPwd=request.getParameter("userPwd");
-		// 3.비즈니스 로직을 처리할 서비스 클래스 메소드로 값을 전달 및 결과 받기
-		Member member = new MemberService().selectMember(userId,userPwd);
-		// 4.받은 결과에 따라서 성공/실패 페이지 내보내기
-		
-		if(member != null) {
-			HttpSession session=request.getSession();
-			
-			session.setAttribute("member", member);
-			
-			response.sendRedirect("/views/member/loginSuccess.jsp");
-		}
-		else{
-			response.sendRedirect("/views/member/loginError.html");
+		HttpSession session = request.getSession();
+		if ( session != null ) {
+			session.invalidate();
+			response.sendRedirect("/index.jsp");
 		}
 	}
 

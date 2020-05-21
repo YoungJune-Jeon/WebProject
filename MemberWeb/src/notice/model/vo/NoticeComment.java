@@ -3,37 +3,32 @@ package notice.model.vo;
 import java.sql.Date;
 
 public class NoticeComment {
-
-	public NoticeComment() {
-
-	}
-
+	
 	private int commentNo;
-	private int contentNo;
+	private int noticeNo;
 	private String content;
 	private String userId;
-	private Date regdate;
+	private Date regDate;
+	
+	public NoticeComment() {}
 
 	public int getCommentNo() {
 		return commentNo;
 	}
-
 	public void setCommentNo(int commentNo) {
 		this.commentNo = commentNo;
 	}
 
-	public int getContentNo() {
-		return contentNo;
+	public int getNoticeNo() {
+		return noticeNo;
 	}
-
-	public void setContentNo(int contentNo) {
-		this.contentNo = contentNo;
+	public void setNoticeNo(int noticeNo) {
+		this.noticeNo = noticeNo;
 	}
 
 	public String getContent() {
 		return content;
 	}
-
 	public void setContent(String content) {
 		this.content = content;
 	}
@@ -41,17 +36,15 @@ public class NoticeComment {
 	public String getUserId() {
 		return userId;
 	}
-
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	public Date getRegdate() {
-		return regdate;
+	public Date getRegDate() {
+		return regDate;
 	}
-
-	public void setRegdate(Date regdate) {
-		this.regdate = regdate;
+	public void setRegDate(Date regDate) {
+		this.regDate = regDate;
 	}
 
 }

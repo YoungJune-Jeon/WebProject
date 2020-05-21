@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.noticeService;
+import notice.model.vo.PageData;
+import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
-import notice.model.vo.pageData;
 
 /**
- * Servlet implementation class noticeServlet
+ * Servlet implementation class NoticeServlet
  */
 @WebServlet("/notice")
 public class NoticeServlet extends HttpServlet {
@@ -33,20 +33,23 @@ public class NoticeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 1. 전송값에 한글이 있을 경우 인코딩
+		// 2. View에서 보낸 전송값 변수 저장
+		// 3. 비즈니스 로직을 처리할 서비스 클래스 메소드로 
+		// 값을 전달 및 결과 받기
 		
-		int currentPage=0;
-		if(request.getParameter("currentPage")==null) {
+		int currentPage = 0;
+		// href="/noticecurrentPage=1"
+		if(request.getParameter("currentPage") == null) {
 			currentPage=1;
+		} else {
+			currentPage = Integer.parseInt(request.getParameter("currentPage"));
 		}
-		else {
-			currentPage=Integer.parseInt(request.getParameter("currentPage"));
-		}
-		pageData pgData= new noticeService().selectNoticeList(currentPage);
+		PageData pageData = new NoticeService().selectNoticeList(currentPage);
 		
 		RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeAll.jsp");
-		request.setAttribute("pageData", pgData);
+		request.setAttribute("pageData", pageData);
 		view.forward(request, response);
-		
 	}
 
 	/**

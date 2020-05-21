@@ -9,50 +9,46 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.noticeService;
+import notice.model.service.NoticeService;
 import notice.model.vo.Notice;
 
 /**
- * Servlet implementation class noticeSelectServlet
+ * Servlet implementation class NoticeSelectServlet
  */
 @WebServlet("/noticeSelect")
 public class NoticeSelectServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public NoticeSelectServlet() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public NoticeSelectServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
-		int noticeNo =Integer.parseInt(request.getParameter("noticeNo"));
+		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
+		Notice notice = new NoticeService().noticeSelect(noticeNo);
 		
-		Notice notice = new noticeService().noticeSelect(noticeNo);
-		
-		if(notice!=null) {
-			RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeContent.jsp");		
+		if ( notice != null ) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeContent.jsp");
 			request.setAttribute("content", notice);
 			view.forward(request, response);
-		}
-		else {
+		} else {
 			response.sendRedirect("/views/notice/noticeError.html");
 		}
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}

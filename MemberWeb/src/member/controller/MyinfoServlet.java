@@ -1,7 +1,6 @@
 package member.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,20 +9,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.sesrvice.MemberService;
+import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class memberList
+ * Servlet implementation class MyinfoServlet
  */
-@WebServlet("/memberList")
-public class memberListservlet extends HttpServlet {
+@WebServlet("/myinfo")
+public class MyinfoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public memberListservlet() {
+    public MyinfoServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,15 +31,20 @@ public class memberListservlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//1 ,2 생량
+		// 1. 전송값에 한글이 있는 경우 인코딩 처리
+		request.setCharacterEncoding("utf-8");
 		
-		ArrayList<Member> list = new MemberService().selectMemberList();
-		
-		if(!list.isEmpty()) {
-			RequestDispatcher view =request.getRequestDispatcher("/views/member/memberList.jsp");
-			request.setAttribute("list", list);
+		// 2. View에서 보낸 전송값을 꺼내어 변수 저장
+		String userId = request.getParameter("userId");
+		// 3. 비즈니스로직을 처리할 서비스 클래스 메소드로
+		// 값을 전달 및 결과 받기
+		Member member = new MemberService().selectMemberOne(userId);
+		// 4. 받은 결과에 따라서 성공/실패 페이지 내보내기
+		if (member != null) {
+			RequestDispatcher view = request.getRequestDispatcher("/views/member/memberMyInfo.jsp");
+			request.setAttribute("member", member);
 			view.forward(request, response);
-		}else {
+		} else {
 			response.sendRedirect("/views/member/memberError.html");
 		}
 	}
@@ -52,5 +56,4 @@ public class memberListservlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
 }

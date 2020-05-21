@@ -33,16 +33,13 @@ public class FileListServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		String userId= ((Member)session.getAttribute("member")).getUserId();
-		
+		String userId = ((Member)session.getAttribute("member")).getUserId();
 		ArrayList<FileData> list = new FileService().selectFileList(userId);
-		if(!list.isEmpty()) {
-			request.setAttribute("fileList",list);
+		if (!list.isEmpty()) {
+			request.setAttribute("fileList", list);
 			request.getRequestDispatcher("/views/file/fileList.jsp").forward(request, response);
 		}
-	
 	}
 
 	/**

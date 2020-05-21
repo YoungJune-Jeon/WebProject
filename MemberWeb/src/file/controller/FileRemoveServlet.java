@@ -29,24 +29,25 @@ public class FileRemoveServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// 한글 인코딩 처리
 		request.setCharacterEncoding("utf-8");
 		
-		int result = 0;
+		// Views에서 보낸 전송값 변수 저장
+		String filePath = request.getParameter("filePath");
+		String fileUser = request.getParameter("fileUser");
 		
-		String filePath=request.getParameter("filePath");
-		
-		
+		// 자바 객체(실제파일과 연결되는 객체)
 		File file = new File(filePath);
 		
-		result = new FileService().deleteFile(filePath);
+		int result = new FileService().deleteFile(filePath);
 		
-		if(result >0) {
+		// DB에서 정보를 삭제했으면실제 파일도 삭제하는 코드
+		if(result > 0) {
 			file.delete();
 			response.sendRedirect("/fileList");
-		}
-		else {
-			System.out.println("파일 삭제 실패");
-			response.sendRedirect("views/file/fileError.html");
+		} else {
+			System.out.println("파일삭제 실패");
+			response.sendRedirect("/views/file/fileError.html");
 		}
 	}
 
