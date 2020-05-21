@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
+import notice.model.service.noticeService;
 import notice.model.vo.Notice;
 
 /**
- * Servlet implementation class NoticeModifyServlet
+ * Servlet implementation class noticeModifyServlet
  */
 @WebServlet("/noticeModify")
 public class NoticeModifyServlet extends HttpServlet {
@@ -31,10 +31,14 @@ public class NoticeModifyServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		Notice notice = new NoticeService().noticeSelect(noticeNo);
+		// TODO Auto-generated method stub
+		int noticeNo= Integer.parseInt(request.getParameter("noticeNo"));
+		
+		Notice notice = new noticeService().noticeSelect(noticeNo);
+		
 		if(notice != null) {
 			RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeModify.jsp");
+			
 			request.setAttribute("content", notice);
 			view.forward(request, response);
 		}
@@ -47,4 +51,5 @@ public class NoticeModifyServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+
 }

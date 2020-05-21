@@ -1,18 +1,23 @@
 package notice.model.vo;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class Notice {
+	
+	public Notice() {
+
+	}
+
 	private int noticeNo;
 	private String subject;
 	private String userId;
 	private String contents;
-	private Date regDate;
-	private ArrayList<NoticeComment> comments = null;
-	// 댓글
+	private String regDate;
 	
-	public Notice() {}
+	private ArrayList<NoticeComment> comments=null;
+	// 댓글
+
+	
 
 	public ArrayList<NoticeComment> getComments() {
 		return comments;
@@ -25,6 +30,7 @@ public class Notice {
 	public int getNoticeNo() {
 		return noticeNo;
 	}
+
 	public void setNoticeNo(int noticeNo) {
 		this.noticeNo = noticeNo;
 	}
@@ -32,6 +38,7 @@ public class Notice {
 	public String getSubject() {
 		return subject;
 	}
+
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
@@ -39,6 +46,7 @@ public class Notice {
 	public String getUserId() {
 		return userId;
 	}
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
@@ -46,15 +54,17 @@ public class Notice {
 	public String getContents() {
 		return contents;
 	}
+
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
 
-	public Date getRegDate() {
+	public String getRegDate() {
 		return regDate;
 	}
-	public void setRegDate(Date regDate) {
+
+	public void setRegDate(String regDate) {
 		this.regDate = regDate;
-	};
+	}
 	
 }

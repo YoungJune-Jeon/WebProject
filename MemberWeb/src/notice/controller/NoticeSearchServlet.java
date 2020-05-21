@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
-import notice.model.vo.PageData;
+import notice.model.service.noticeService;
+import notice.model.vo.pageData;
 
 /**
- * Servlet implementation class NoticeSearchServlet
+ * Servlet implementation class noticeSearchServlet
  */
-@WebServlet("/noticesearch")
+@WebServlet("/noticeSearch")
 public class NoticeSearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -31,20 +31,23 @@ public class NoticeSearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// 1. 전송값에 한글이 있을 경우 인코딩 처리
 		request.setCharacterEncoding("utf-8");
-		// 2. View에서 보낸 전송값을 꺼내어 변수 저장
-		String search = request.getParameter("search");
-		int currentPage = 0;
-		if (request.getParameter("currentPage")==null) {
-			currentPage = 1;
-		} else {
-			currentPage = Integer.parseInt(request.getParameter("currentPage"));
+		String search= request.getParameter("search");
+		int currentPage=0;
+		if(request.getParameter("currentPage")==null) {
+			currentPage=1;
+			
 		}
-		PageData pd = new NoticeService().noticeSearchList(currentPage, search);
-		RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticeSearch.jsp");
+		else {
+			currentPage=Integer.parseInt(request.getParameter("currentPage"));
+		}
+		
+		pageData pd = new noticeService().noticeSearchList(currentPage,search);
+		
+		RequestDispatcher view = request.getRequestDispatcher("/views/notice/noticesearch.jsp");
 		request.setAttribute("pageData", pd);
 		request.setAttribute("search", search);
+		
 		view.forward(request, response);
 	}
 

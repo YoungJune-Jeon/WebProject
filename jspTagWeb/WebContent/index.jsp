@@ -12,10 +12,10 @@
 	<a href= "/actionTag/jsp_foword.jsp">jsp:forward tag</a><br>
 	<a href= "/actionTag/jsp_useBean.jsp">jsp:useBean tag</a><br>
 	<a href= "/EL/jsp_EL.html">EL tag</a><br>
-	<a href= "">JSTL 기초1</a><br>
+	<a href= "/JSTL/jsp_JSTL_Basic1.jsp">JSTL 기초1</a><br>
 	<a href= "">JSTL 기초1(scope)</a><br>
 	<a href= "">JSTL 기초1(remove)</a><br>
 	<a href= "">JSTL 기초1(out)</a><br>
-	<a href= "">JSTL 제어문</a><br>
+	<a href= "/JSTL/jsp_JSTL.jsp">JSTL 제어문</a><br>
 </body>
 </html>
