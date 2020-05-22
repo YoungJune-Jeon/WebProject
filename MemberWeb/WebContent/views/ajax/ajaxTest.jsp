@@ -199,9 +199,104 @@
                console.log("실패");
             }
          });
-      
       });
       
+   
+   </script>
+   
+   <h4>7. 여러 전송값을 보내고, MAP으로 받아서 처리</h4>
+   <p>유저 번호를 전송 -> 해당 유저 맵으로 받아서 처리</p>
+   
+   유저 번호 입력 : <input type="text" id="userNum7" />
+   <p id="p7"></p>
+	<button id="jQbtn7">전송 및 결과 확인</button>   
+	<script>
+		$("#jQbtn7").click(function(){
+			var userNum =$("#userNum7").val();
+			$.ajax({
+				url:"/ajaxTest7",
+				type : "get",
+				data:{userNum : userNum},
+				success : function(data){
+					//console.log(data);
+					
+					var resultText="";
+					var keys =Object.keys(data);
+					for(var i=0;i<keys.length;i++){
+						console.log("실패!");
+						var userNo = data[keys[i]].userNo;
+						var userName =decodeURIComponent(data[keys[i]].userName);
+						var userAddr = decodeURIComponent(data[keys[i]].userAddr);
+						resultText +="번호: "+userNo+" / 이름 : "+userName+" / 주소: "+userAddr;
+						console.log(data);
+					}
+					$("#p7").html(resultText);
+				},
+				error:function(data){
+					
+				}
+			});
+		});
+	</script>
+	
+	<h4>8. 서버에 값을 보내서 리스트로 받아 select 표현하기</h4>
+	<select name="" id="sel1">
+	<option value="1">1</option>
+	<option value="2">2</option>
+	</select>
+	<select name="" id="sel2"></select>
+	<script>
+		$("#sel1").change(function(){
+			var sel =$("#sel1").val();
+			$.ajax({
+				url : "/ajaxTest8",
+				data : {sel1: sel},
+				// /ajaxTest8?sel1=1
+						type :"get",
+						success : function(data){
+							console.log(data);
+							var sel2 =$("#sel2");
+							sel2.find("option").remove();
+							for(var i=0; i<data.length;i++){
+								var num =data[i].num;
+								sel2.append("<option>"+num+"</option>");
+						}
+					},
+				error : function(data){
+					console.log("실패!!");
+				}
+			});
+		});
+		
+	</script>
+   <h4>9. GSON을 이용한 List반환</h4>
+   <button id="jQbtn9">실행</button>
+   <p id="p9"></p>
+   <script>
+   	$("#jQbtn9").click(function(){
+   		$.ajax({
+   			
+   			url : "/ajaxTest9",
+   			type : "get",
+   			success : function(data){
+   				//console.log(data);
+   				var resultText ="";
+   				for(var i=0;i<data.length;i++){
+   					var userNo = data[i].userNo;
+   					var userName = data[i].userName;
+   					var userAddr = data[i].userAddr;
+   					resultText += 
+   						"번호 : "+ userNo 
+   						+"/이름 : "+ userName 
+   						+"/주소 :"+ userAddr +"<br>";
+   				}
+   				$("#p9").html(resultText);
+   			},
+   			error : function(data){
+   				console.log("에러 발생!");
+   			}
+   		});
+   	});
    
    </script>
    

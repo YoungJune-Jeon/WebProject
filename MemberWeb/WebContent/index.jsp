@@ -13,13 +13,14 @@
 <% if( member != null ) {%>
 	[<%= member.getUserName() %>]님 환영합니다.
 	<br><a href="/Logout">로그아웃</a><br>
-	<a href="/myinfo?userId=<%= member.getUserId() %>">마이페이지</a><br>
+	<a href="/myinfo?userId=<%= member.getUserId() %>">마이페이지</a><br> 
 	<a href="/views/file/upload.html">업로드</a><br>
 	<a href="/fileList">다운로드</a><br>
 	<% if (member.getUserId().equals("admin")) { %>
 		<a href="/memberList">전체 회원 조회</a><br>
 	<% } %>
 	<a href="/notice">공지사항 확인</a><br>
+	<a href="/photoList">사진게시판</a><br>
 <% } %>
 <% if (member == null ) { %>
 	<h1>로그인 페이지</h1>
